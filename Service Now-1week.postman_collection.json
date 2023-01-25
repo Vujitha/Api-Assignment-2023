@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "b5bdf713-25cc-49b0-8dba-5f41cf732baf",
+		"name": "Service Now-1week",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11992689"
+	},
+	"item": [
+		{
+			"name": "Change Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev51195.service-now.com/api/now/table/change_request?sysparm_limit=2&sysparm_fields=sys_id,short_description",
+					"protocol": "https",
+					"host": [
+						"dev51195",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"change_request"
+					],
+					"query": [
+						{
+							"key": "sysparm_limit",
+							"value": "2"
+						},
+						{
+							"key": "sysparm_fields",
+							"value": "sys_id,short_description"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateRequest WithQueryParam",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"// pm.test(\"Validating Short description\", function () {\r",
+							"//     pm.expect(pm.response.text()).to.include(\"Created with postman\");\r",
+							"// });\r",
+							"var res = pm.response.json();\r",
+							"console.log(res.result.short_description);\r",
+							"console.log(res.result.description);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Created with postman\",\r\n    \"short_description\": \"My first created via Postman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev51195.service-now.com/api/now/table/change_request",
+					"protocol": "https",
+					"host": [
+						"dev51195",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"change_request"
+					],
+					"query": [
+						{
+							"key": "sysparm_fields",
+							"value": "sys_id,short_description",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateIncidentwithRequestasXML",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Validating Short description\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Created with postman\");\r",
+							"});\r",
+							"pm.test(\"Validating Response\", function () {\r",
+							"var res = xml2Json(responseBody);\r",
+							"var sys_id = res.response.result.sys_id;\r",
+							"console.log(sys_id);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<request>\r\n    <entry>\r\n        <description>Created with postman</description>\r\n        <short_description>My first created via Postman</short_description>\r\n    </entry>\r\n</request>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev51195.service-now.com/api/now/table/change_request",
+					"protocol": "https",
+					"host": [
+						"dev51195",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"change_request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateIncident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validating description\", function () {\r",
+							"var res = pm.response.json();\r",
+							"var description=res.result.description;\r",
+							"console.log(description);\r",
+							"pm.expect(\"Created with postman\").to.eql(description);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Created with postman\",\r\n    \"short_description\": \"My first created via Postman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev51195.service-now.com/api/now/table/change_request/9b948dda2f282510052ad5ccf699b6b4?sysparm_fields=description,short_description",
+					"protocol": "https",
+					"host": [
+						"dev51195",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"change_request",
+						"9b948dda2f282510052ad5ccf699b6b4"
+					],
+					"query": [
+						{
+							"key": "sysparm_fields",
+							"value": "description,short_description"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIncident",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete the record\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://dev51195.service-now.com/api/now/table/change_request/00ac8e292fa0a110052ad5ccf699b6bb",
+					"protocol": "https",
+					"host": [
+						"dev51195",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"change_request",
+						"00ac8e292fa0a110052ad5ccf699b6bb"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "bJ6FN7bp^yE/",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
